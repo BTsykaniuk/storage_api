@@ -4,8 +4,12 @@ from products.models import Product
 
 class ProductListSerializer(serializers.ListSerializer):
     def create(self, validated_data):
-        products = [Product(**item) for item in validated_data]
-        return Product.objects.bulk_create(products)
+        out = []
+        for item in validated_data:
+            product = Product.objects.create(**item)
+            product.save()
+            out.append(product)
+        return out
 
     def update(self, instance, validated_data):
         product_map = {product.id: product for product in instance}
@@ -24,9 +28,9 @@ class ProductListSerializer(serializers.ListSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
 
     class Meta:
         model = Product
-        fields = ('id', 'name', 'description', 'date_added', 'date_updated')
+        fields = '__all__'
         list_serializer_class = ProductListSerializer

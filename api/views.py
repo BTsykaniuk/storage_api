@@ -1,4 +1,5 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView
+from django import http
 
 from products.models import Product
 from api.serializers import ProductSerializer
@@ -18,7 +19,11 @@ class ListMixin:
 class ProductObjectMixin:
     def get_object(self):
         ids_list = self.get_update_ids(self.request.data)
-        return Product.objects.filter(id__in=ids_list)
+        products = Product.objects.filter(id__in=ids_list)
+        if products:
+            return products
+        else:
+            raise http.Http404
 
     @staticmethod
     def get_update_ids(data):
@@ -26,11 +31,6 @@ class ProductObjectMixin:
         for item in data:
             ids.append(item['id'])
         return ids
-
-
-class ProductListAPIView(ListAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
 
 
 class ProductsCreateAPIView(ListMixin, CreateAPIView):

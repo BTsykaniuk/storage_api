@@ -3,7 +3,6 @@ from api import views
 
 
 urlpatterns = [
-    path('', views.ProductListAPIView.as_view(), name='list'),
     path('create/', views.ProductsCreateAPIView.as_view(), name='create'),
     path('update/', views.ProductUpdateAPIView.as_view(), name='update'),
     path('delete/', views.ProductDeleteAPIView.as_view(), name='delete')
