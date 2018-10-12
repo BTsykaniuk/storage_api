@@ -31,12 +31,12 @@ class CreateDateFilter(SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == 'today':
-            return queryset.filter(date_updated=datetime.today().date())
+            return queryset.filter(date_added=datetime.today().date())
 
         if self.value() == 'three':
             date_ago = datetime.today() - timedelta(days=3)
-            return queryset.filter(date_updated__gte=date_ago.date())
+            return queryset.filter(date_added__gte=date_ago.date())
 
         if self.value() == 'week':
             date_ago = datetime.today() - timedelta(weeks=1)
-            return queryset.filter(date_updated__gte=date_ago.date())
+            return queryset.filter(date_added__gte=date_ago.date())
