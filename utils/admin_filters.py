@@ -11,7 +11,6 @@ class UpdateTodayFilter(SimpleListFilter):
     def lookups(self, request, model_admin):
         return (
             ('today', _('today')),
-            ('today', _('today'))
         )
 
     def queryset(self, request, queryset):
@@ -41,5 +40,3 @@ class CreateDateFilter(SimpleListFilter):
         if self.value() == 'week':
             date_ago = datetime.today() - timedelta(weeks=1)
             return queryset.filter(date_updated__gte=date_ago.date())
-
-
