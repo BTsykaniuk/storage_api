@@ -3,7 +3,7 @@ from api import views
 
 
 urlpatterns = [
-    path('create/', views.ProductsCreateAPIView.as_view(), name='create'),
-    path('update/', views.ProductUpdateAPIView.as_view(), name='update'),
-    path('delete/', views.ProductDeleteAPIView.as_view(), name='delete')
+    path('create/', views.ItemsCreateAPIView.as_view(), name='create'),
+    path('update/', views.ItemsUpdateAPIView.as_view(), name='update'),
+    path('delete/', views.ItemsDeleteAPIView.as_view(), name='delete')
 ]

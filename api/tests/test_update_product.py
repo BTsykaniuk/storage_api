@@ -1,7 +1,7 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from model_mommy import mommy
-from products.models import Product
+from items.models import Item
 
 
 class ProductsUpdateAPITest(APITestCase):
@@ -13,7 +13,7 @@ class ProductsUpdateAPITest(APITestCase):
         """
         Test bulk create
         """
-        mommy.make('products.Product',
+        mommy.make('items.Product',
                    name='Some name')
 
         product = {
@@ -24,11 +24,11 @@ class ProductsUpdateAPITest(APITestCase):
 
         response = self.client.patch(self.view, data, format='json')
         self.assertEqual(200, response.status_code, response.data)
-        product = Product.objects.get(id=1)
+        product = Item.objects.get(id=1)
         self.assertEqual('Updated', product.name, response.data)
 
     def test_update_single_from_multiple(self):
-        mommy.make('products.Product',
+        mommy.make('items.Product',
                    _quantity=2)
         product = {
             'id': 1,
@@ -38,13 +38,13 @@ class ProductsUpdateAPITest(APITestCase):
 
         response = self.client.patch(self.view, data, format='json')
         self.assertEqual(200, response.status_code, response.data)
-        product = Product.objects.all()
+        product = Item.objects.all()
         self.assertEqual('Updated', product[0].name, response.data)
         self.assertIsNotNone(product[0].date_updated, response.data)
         self.assertIsNone(product[1].date_updated, response.data)
 
     def test_update_not_exist(self):
-        mommy.make('products.Product',
+        mommy.make('items.Product',
                    _quantity=2)
         product = {
             'id': 3,

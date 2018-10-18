@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     # user apps
     'api',
-    'products',
+    'items',
     'sellers'
 ]
 

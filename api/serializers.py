@@ -1,14 +1,14 @@
 from datetime import datetime
 
 from rest_framework import serializers
-from products.models import Product
+from items.models import Item
 
 
-class ProductListSerializer(serializers.ListSerializer):
+class ItemListSerializer(serializers.ListSerializer):
     def create(self, validated_data):
         out = []
         for item in validated_data:
-            product = Product.objects.create(**item)
+            product = Item.objects.create(**item)
             product.save()
             out.append(product)
         return out
@@ -30,10 +30,10 @@ class ProductListSerializer(serializers.ListSerializer):
         return instance
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
 
     class Meta:
-        model = Product
+        model = Item
         fields = '__all__'
-        list_serializer_class = ProductListSerializer
+        list_serializer_class = ItemListSerializer

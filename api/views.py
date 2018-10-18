@@ -1,8 +1,8 @@
 from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView
 from django import http
 
-from products.models import Product
-from api.serializers import ProductSerializer
+from items.models import Item
+from api.serializers import ItemSerializer
 
 
 class ListMixin:
@@ -16,10 +16,10 @@ class ListMixin:
         return super().get_serializer(*args, **kwargs)
 
 
-class ProductObjectMixin:
+class ItemsObjectMixin:
     def get_object(self):
         ids_list = self.get_update_ids(self.request.data)
-        products = Product.objects.filter(id__in=ids_list)
+        products = Item.objects.filter(id__in=ids_list)
         if products:
             return products
         else:
@@ -33,15 +33,15 @@ class ProductObjectMixin:
         return ids
 
 
-class ProductsCreateAPIView(ListMixin, CreateAPIView):
-    serializer_class = ProductSerializer
+class ItemsCreateAPIView(ListMixin, CreateAPIView):
+    serializer_class = ItemSerializer
 
 
-class ProductUpdateAPIView(ListMixin, ProductObjectMixin, UpdateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+class ItemsUpdateAPIView(ListMixin, ItemsObjectMixin, UpdateAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
 
 
-class ProductDeleteAPIView(ListMixin, ProductObjectMixin, DestroyAPIView):
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
+class ItemsDeleteAPIView(ListMixin, ItemsObjectMixin, DestroyAPIView):
+    serializer_class = ItemSerializer
+    queryset = Item.objects.all()

@@ -1,6 +1,6 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
-from products.models import Product
+from items.models import Item
 
 
 class ProductsCreateAPITest(APITestCase):
@@ -20,5 +20,5 @@ class ProductsCreateAPITest(APITestCase):
 
         response = self.client.post(self.view, data, format='json')
         self.assertEqual(201, response.status_code, response.data)
-        product_count = Product.objects.count()
+        product_count = Item.objects.count()
         self.assertEqual(3, product_count, response.data)
