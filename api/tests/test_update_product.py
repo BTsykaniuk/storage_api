@@ -40,9 +40,10 @@ class ProductsUpdateAPITest(APITestCase):
         self.assertEqual(200, response.status_code, response.data)
         product = Product.objects.all()
         self.assertEqual('Updated', product[0].name, response.data)
-        self.assertNotEqual('Updated', product[1].name, response.data)
+        self.assertIsNotNone(product[0].date_updated, response.data)
+        self.assertIsNone(product[1].date_updated, response.data)
 
-    def update_not_exist(self):
+    def test_update_not_exist(self):
         mommy.make('products.Product',
                    _quantity=2)
         product = {

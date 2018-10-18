@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import serializers
 from products.models import Product
 
@@ -17,6 +19,7 @@ class ProductListSerializer(serializers.ListSerializer):
 
         out = []
         for product_id, data in data_map.items():
+            data['date_updated'] = datetime.today().date()
             product = product_map.get(product_id)
             out.append(self.child.update(product, data))
         return out
