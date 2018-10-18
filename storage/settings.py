@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     # user apps
     'api',
-    'products'
+    'products',
+    'sellers'
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'storage.wsgi.application'
