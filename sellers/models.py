@@ -7,3 +7,6 @@ class Seller(models.Model):
 
     def __str__(self):
         return f'Seller {self.name}'
+
+    def get_items(self):
+        return self.items.all()

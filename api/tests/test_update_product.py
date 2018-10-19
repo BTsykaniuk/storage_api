@@ -11,27 +11,35 @@ class ProductsUpdateAPITest(APITestCase):
 
     def test_update_product(self):
         """
-        Test bulk create
+        Test bulk update
         """
         seller = mommy.make('sellers.Seller',
                             name='TestSeller')
         mommy.make('items.Item',
                    name='Some name',
-                   seller=seller)
+                   seller=seller,
+                   _quantity=3)
 
-        product = {
+        product1 = {
             'id': 1,
             'name': 'Updated'
         }
-        data = [product]
+        product2 = {
+            'id': 2,
+            'name': 'Updated'
+        }
+
+        data = [product1, product2]
 
         response = self.client.patch(self.view, data, format='json')
         self.assertEqual(200, response.status_code, response.data)
-        product = Item.objects.get(id=1)
-        self.assertEqual('Updated', product.name, response.data)
+        product = Item.objects.all()
+        self.assertEqual('Updated', product[0].name, response.data)
+        self.assertEqual('Updated', product[1].name, response.data)
+        self.assertNotEqual('Updated', product[2].name, response.data)
 
     def test_update_single_from_multiple(self):
-        mommy.make('items.Product',
+        mommy.make('items.Item',
                    _quantity=2)
         product = {
             'id': 1,
@@ -47,7 +55,7 @@ class ProductsUpdateAPITest(APITestCase):
         self.assertIsNone(product[1].date_updated, response.data)
 
     def test_update_not_exist(self):
-        mommy.make('items.Product',
+        mommy.make('items.Item',
                    _quantity=2)
         product = {
             'id': 3,

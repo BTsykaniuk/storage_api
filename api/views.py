@@ -2,7 +2,8 @@ from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, D
 from django import http
 
 from items.models import Item
-from api.serializers import ItemSerializer, AllItemsSerializer
+from sellers.models import Seller
+from api.serializers import ItemSerializer,  ItemListSerializer, SellerListSerializer
 
 
 class ListMixin:
@@ -35,7 +36,7 @@ class ItemsObjectMixin:
 
 class ItemListAPIView(ListAPIView):
     queryset = Item.objects.all()
-    serializer_class = AllItemsSerializer
+    serializer_class = ItemListSerializer
 
 
 class ItemsCreateAPIView(ListMixin, CreateAPIView):
@@ -52,3 +53,6 @@ class ItemsDeleteAPIView(ListMixin, ItemsObjectMixin, DestroyAPIView):
     queryset = Item.objects.all()
 
 
+class SellerListAPIView(ListAPIView):
+    queryset = Seller.objects.all()
+    serializer_class = SellerListSerializer

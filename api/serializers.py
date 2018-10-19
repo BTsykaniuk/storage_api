@@ -4,6 +4,8 @@ from rest_framework import serializers
 from items.models import Item
 from sellers.models import Seller
 
+from utils.serilizer_mixin import DynamicFieldsModelSerializer
+
 
 class SellerSerializer(serializers.ModelSerializer):
 
@@ -12,15 +14,7 @@ class SellerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AllItemsSerializer(serializers.ModelSerializer):
-    seller = SellerSerializer()
-
-    class Meta:
-        model = Item
-        fields = '__all__'
-
-
-class ItemListSerializer(serializers.ListSerializer):
+class ItemDetailListSerializer(serializers.ListSerializer):
     def create(self, validated_data):
         out = []
         for item in validated_data:
@@ -46,10 +40,25 @@ class ItemListSerializer(serializers.ListSerializer):
         return instance
 
 
-class ItemSerializer(serializers.ModelSerializer):
+class ItemSerializer(DynamicFieldsModelSerializer):
     id = serializers.IntegerField(required=False)
 
     class Meta:
         model = Item
         fields = '__all__'
-        list_serializer_class = ItemListSerializer
+        list_serializer_class = ItemDetailListSerializer
+
+
+class ItemListSerializer(ItemSerializer):
+    seller = SellerSerializer()
+
+
+class SellerListSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    items = ItemSerializer(many=True,
+                           source='get_items',
+                           fields=('id', 'name', 'description', 'date_added', 'date_updated'))
+
+    class Meta:
+        model = Seller
+        fields = ('id', 'name', 'birthday', 'items')

@@ -11,7 +11,7 @@ class ProductsDeleteAPITest(APITestCase):
 
     def test_delete_product(self):
         """
-        Test bulk create
+        Test bulk delete
         """
         seller = mommy.make('sellers.Seller',
                             name='TestSeller')

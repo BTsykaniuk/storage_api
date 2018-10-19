@@ -7,5 +7,5 @@ urlpatterns = [
     path('create/', views.ItemsCreateAPIView.as_view(), name='create'),
     path('update/', views.ItemsUpdateAPIView.as_view(), name='update'),
     path('delete/', views.ItemsDeleteAPIView.as_view(), name='delete'),
-    path('sellers/', views.ItemsDeleteAPIView.as_view(), name='sellers'),
+    path('sellers/', views.SellerListAPIView.as_view(), name='sellers'),
 ]
