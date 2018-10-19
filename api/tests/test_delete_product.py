@@ -13,7 +13,10 @@ class ProductsDeleteAPITest(APITestCase):
         """
         Test bulk create
         """
-        mommy.make('items.Product',
+        seller = mommy.make('sellers.Seller',
+                            name='TestSeller')
+        mommy.make('items.Item',
+                   seller=seller,
                    _quantity=5)
 
         data = [
@@ -28,7 +31,10 @@ class ProductsDeleteAPITest(APITestCase):
         self.assertEqual(2, product_count, response.data)
 
     def test_delete_not_exist(self):
-        mommy.make('items.Product',
+        seller = mommy.make('sellers.Seller',
+                            name='TestSeller')
+        mommy.make('items.Item',
+                   seller=seller,
                    _quantity=5)
 
         data = [{'id': 6}]

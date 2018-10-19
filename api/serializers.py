@@ -2,6 +2,22 @@ from datetime import datetime
 
 from rest_framework import serializers
 from items.models import Item
+from sellers.models import Seller
+
+
+class SellerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Seller
+        fields = '__all__'
+
+
+class AllItemsSerializer(serializers.ModelSerializer):
+    seller = SellerSerializer()
+
+    class Meta:
+        model = Item
+        fields = '__all__'
 
 
 class ItemListSerializer(serializers.ListSerializer):

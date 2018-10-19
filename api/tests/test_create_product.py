@@ -1,5 +1,6 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
+from model_mommy import mommy
 from items.models import Item
 
 
@@ -12,9 +13,12 @@ class ProductsCreateAPITest(APITestCase):
         """
         Test bulk create
         """
+        seller = mommy.make('sellers.Seller',
+                            name='TestSeller')
         product = {
             'name': 'some name',
-            'description': 'some text'
+            'description': 'some text',
+            'seller': seller.id
         }
         data = [product] * 3
 

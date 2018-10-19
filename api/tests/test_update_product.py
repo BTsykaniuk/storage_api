@@ -13,8 +13,11 @@ class ProductsUpdateAPITest(APITestCase):
         """
         Test bulk create
         """
-        mommy.make('items.Product',
-                   name='Some name')
+        seller = mommy.make('sellers.Seller',
+                            name='TestSeller')
+        mommy.make('items.Item',
+                   name='Some name',
+                   seller=seller)
 
         product = {
             'id': 1,
