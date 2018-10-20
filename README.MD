@@ -24,3 +24,42 @@ python manage.py test
 ```
 http://localhost:8000
 ```
+
+Получить список всех товаров
+```
+/api/
+method=GET
+```
+
+Получить список всех продавцов
+```
+/api/sellers/
+method=GET
+```
+
+Создать товар
+```
+/api/create/
+method=POST
+{
+  "name": "string",
+  "description": "string",
+  "seller": seller.id
+}
+```
+
+Обновить товар. Все поля опциональные
+```
+/api/update/<item.id>
+method=PATCH
+{
+  "name": "string",
+  "description": "string"
+}
+```
+
+Удалить товар.
+```
+/api/delete/<item.id>
+method=DELETE
+```
