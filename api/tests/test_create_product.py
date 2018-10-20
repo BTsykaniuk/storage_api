@@ -20,9 +20,8 @@ class ProductsCreateAPITest(APITestCase):
             'description': 'some text',
             'seller': seller.id
         }
-        data = [product] * 3
 
-        response = self.client.post(self.view, data, format='json')
+        response = self.client.post(self.view, product, format='json')
         self.assertEqual(201, response.status_code, response.data)
         product_count = Item.objects.count()
-        self.assertEqual(3, product_count, response.data)
+        self.assertEqual(1, product_count, response.data)

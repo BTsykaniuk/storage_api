@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     # user apps
     'api',
     'items',
-    'sellers'
+    'sellers',
+    
+    # third party apps
+    'rest_framework',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [

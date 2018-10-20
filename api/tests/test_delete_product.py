@@ -7,39 +7,36 @@ from items.models import Item
 class ProductsDeleteAPITest(APITestCase):
     def setUp(self):
         super().setUp()
-        self.view = reverse('api:delete')
 
     def test_delete_product(self):
-        """
-        Test bulk delete
-        """
+
         seller = mommy.make('sellers.Seller',
                             name='TestSeller')
         mommy.make('items.Item',
                    seller=seller,
-                   _quantity=5)
+                   _quantity=2)
 
-        data = [
-            {'id': 1},
-            {'id': 2},
-            {'id': 3}
-        ]
+        data = {'pk': 1}
 
-        response = self.client.delete(self.view, data, format='json')
+        view = reverse('api:delete', kwargs=data)
+
+        response = self.client.delete(view, format='json')
         self.assertEqual(204, response.status_code, response.data)
         product_count = Item.objects.count()
-        self.assertEqual(2, product_count, response.data)
+        self.assertEqual(1, product_count, response.data)
 
     def test_delete_not_exist(self):
         seller = mommy.make('sellers.Seller',
                             name='TestSeller')
         mommy.make('items.Item',
                    seller=seller,
-                   _quantity=5)
+                   _quantity=1)
 
-        data = [{'id': 6}]
+        data = {'pk': 2}
 
-        response = self.client.delete(self.view, data, format='json')
+        view = reverse('api:delete', kwargs=data)
+
+        response = self.client.delete(view, format='json')
         self.assertEqual(404, response.status_code, response.data)
         product_count = Item.objects.count()
-        self.assertEqual(5, product_count, response.data)
+        self.assertEqual(1, product_count, response.data)
